@@ -1,17 +1,19 @@
 package com.company;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Database {
+public class BaseDeDatos {
     static final String url = "jdbc:sqlite:database.db";
     static final int DATABASE_VERSION = 4;
 
-    static Database instance;
+    static BaseDeDatos instance;
     static Connection conn;
 
-    public static Database get(){
+    public static BaseDeDatos get(){
         if(instance == null){
-            instance = new Database();
+            instance = new BaseDeDatos();
 
             try {
                 conn = DriverManager.getConnection(url);
@@ -83,23 +85,42 @@ public class Database {
         }
     }
 
-    public Estudiante[] selectEstudiantesConNotaSuperiorA(double nota){
-        String sql = "SELECT nombre, nota "
-                + "FROM estudiantes WHERE nota > ?";
+    public List<Estudiante> selectEstudiantes(){
+        String sql = "SELECT nombre, nota FROM estudiantes";
 
+        List<Estudiante> list = new ArrayList<>();
         try (PreparedStatement pstmt  = conn.prepareStatement(sql)){
 
-            pstmt.setDouble(1, nota);
             ResultSet rs  = pstmt.executeQuery();
-
             while (rs.next()) {
-                System.out.println(rs.getString("nombre") + "\t" +
-                        rs.getDouble("nota"));
+                String nombre = rs.getString("nombre");
+                float nota = rs.getFloat("nota");
+                list.add(new Estudiante(nombre, nota));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
-        return new Estudiante[1];
+        return list;
+    }
+
+    public List<Estudiante> selectEstudiantesConNotaSuperiorA(double notaMinima){
+        String sql = "SELECT nombre, nota FROM estudiantes WHERE nota > ?";
+
+        List<Estudiante> list = new ArrayList<>();
+        try (PreparedStatement pstmt  = conn.prepareStatement(sql)){
+
+            pstmt.setDouble(1, notaMinima);
+            ResultSet rs  = pstmt.executeQuery();
+            while (rs.next()) {
+                String nombre = rs.getString("nombre");
+                float nota = rs.getFloat("nota");
+                list.add(new Estudiante(nombre, nota));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return list;
     }
 }
