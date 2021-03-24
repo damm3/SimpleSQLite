@@ -15,13 +15,20 @@ public class Main {
         db.insertEstudiante("adios", 6);
 
         System.out.println("TODOS");
+
         List<Estudiante> estudianteList1 = db.selectEstudiantes();
+
         for(Estudiante estudiante:estudianteList1) {
             System.out.println(estudiante.nombre + " : " + estudiante.nota);
         }
 
+
+
+
         System.out.println("CON NOTA SUPERIOR A 3");
+
         List<Estudiante> estudianteList2 = db.selectEstudiantesConNotaSuperiorA(3);
+
         for(Estudiante estudiante:estudianteList2) {
             System.out.println(estudiante.nombre + " : " + estudiante.nota);
         }

@@ -27,7 +27,6 @@ public class BaseDeDatos {
     void deleteTables(){
         try (Statement stmt = conn.createStatement()) {
             stmt.execute("DROP TABLE IF EXISTS estudiantes;");
-            stmt.execute("DROP TABLE IF EXISTS grupos;");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -36,7 +35,6 @@ public class BaseDeDatos {
     void createTables(){
         try (Statement stmt = conn.createStatement()) {
             stmt.execute("CREATE TABLE IF NOT EXISTS estudiantes (nombre text, nota real);");
-            stmt.execute("CREATE TABLE IF NOT EXISTS grupos (nombre text);");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -84,8 +82,8 @@ public class BaseDeDatos {
             ResultSet rs  = pstmt.executeQuery();
             while (rs.next()) {
                 String nombre = rs.getString("nombre");
-
                 float nota = rs.getFloat("nota");
+
                 list.add(new Estudiante(nombre, nota));
             }
         } catch (SQLException e) {
