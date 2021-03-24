@@ -1,8 +1,6 @@
-com/company/Database.java
- com.company.Database
+com/company/BaseDeDatos.java
+ com.company.BaseDeDatos
 com/company/Estudiante.java
  com.company.Estudiante
-com/company/Hola.java
- com.company.Hola
 com/company/Main.java
  com.company.Main

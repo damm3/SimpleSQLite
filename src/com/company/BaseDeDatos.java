@@ -6,7 +6,7 @@ import java.util.List;
 
 public class BaseDeDatos {
     static final String url = "jdbc:sqlite:database.db";
-    static final int DATABASE_VERSION = 4;
+//    static final int DATABASE_VERSION = 4;
 
     static BaseDeDatos instance;
     static Connection conn;
@@ -21,39 +21,39 @@ public class BaseDeDatos {
                 System.out.println(e.getMessage());
             }
 
-            if(instance.getVersion() != DATABASE_VERSION){
-                System.out.println("VERSION = " + instance.getVersion());
-                instance.upgradeDatabase();
-                instance.setVersion();
-            }
+//            if(instance.getVersion() != DATABASE_VERSION){
+//                System.out.println("VERSION = " + instance.getVersion());
+//                instance.upgradeDatabase();
+//                instance.setVersion();
+//            }
         }
         return instance;
     }
 
-    public int getVersion(){
-        try (Statement stmt  = conn.createStatement()){
-            ResultSet rs  = stmt.executeQuery("PRAGMA user_version");
-            while (rs.next()) {
-                return rs.getInt("user_version");
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return -1;
-    }
-
-    public void setVersion(){
-        try (Statement stmt  = conn.createStatement()){
-            stmt.execute("PRAGMA user_version = " + DATABASE_VERSION);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    void upgradeDatabase(){
-        deleteTables();
-        createTables();
-    }
+//    public int getVersion(){
+//        try (Statement stmt  = conn.createStatement()){
+//            ResultSet rs  = stmt.executeQuery("PRAGMA user_version");
+//            while (rs.next()) {
+//                return rs.getInt("user_version");
+//            }
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//        return -1;
+//    }
+//
+//    public void setVersion(){
+//        try (Statement stmt  = conn.createStatement()){
+//            stmt.execute("PRAGMA user_version = " + DATABASE_VERSION);
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
+//
+//    void upgradeDatabase(){
+//        deleteTables();
+//        createTables();
+//    }
 
     void deleteTables(){
         try (Statement stmt = conn.createStatement()) {
@@ -95,6 +95,7 @@ public class BaseDeDatos {
             while (rs.next()) {
                 String nombre = rs.getString("nombre");
                 float nota = rs.getFloat("nota");
+
                 list.add(new Estudiante(nombre, nota));
             }
         } catch (SQLException e) {
@@ -114,6 +115,7 @@ public class BaseDeDatos {
             ResultSet rs  = pstmt.executeQuery();
             while (rs.next()) {
                 String nombre = rs.getString("nombre");
+
                 float nota = rs.getFloat("nota");
                 list.add(new Estudiante(nombre, nota));
             }
